@@ -8,15 +8,7 @@ metadata:
     #ingress.kubernetes.io/secure-backends: "true"
     #ingress.kubernetes.io/force-ssl-redirect: "true"
     #kubernetes.io/ingress.allow-http: "false"
-    #certmanager.k8s.io/cluster-issuer: letsencrypt-staging
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      modsecurity_rules '
-        SecRuleEngine On
-        SecAuditLog /var/log/modsec/audit.log
-        SecAuditLogParts ABCIJDEFHZ
-        SecAuditEngine RelevantOnly
-        SecRuleRemoveById 932140
-      ';
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
   name: app-wordsmith-ingress
   namespace: veriff-app
 spec:
