@@ -12,7 +12,7 @@ metadata:
   namespace: veriff-app
 spec:
   rules:
-    - host: veriff.amandasouza.app
+  - host: veriff.amandasouza.app
     http:
         paths:
         - path: /

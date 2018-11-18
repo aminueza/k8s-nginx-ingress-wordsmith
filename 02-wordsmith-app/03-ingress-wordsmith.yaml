@@ -17,7 +17,7 @@ spec:
     - veriff.amandasouza.app
     secretName: veriff-tls
   rules:
-    - host: veriff.amandasouza.app
+  - host: veriff.amandasouza.app
     http:
         paths:
         - path: /
