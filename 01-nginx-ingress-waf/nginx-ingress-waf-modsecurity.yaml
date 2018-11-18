@@ -11,8 +11,8 @@ metadata:
   name: nginx-configuration
   namespace: ingress-nginx
   labels:
-    app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
+    nginx.org/mergeable-ingress-type: "master"
 data:
   #Enable WAF
   enable-modsecurity:  "true"

@@ -8,6 +8,7 @@ metadata:
     ingress.kubernetes.io/auth-realm: 'Authentication Required {{.ENVIRONMENT}}'
     #ingress.kubernetes.io/ssl-redirect: "true"
     ingress.kubernetes.io/secure-backends: "true"
+    nginx.org/mergeable-ingress-type: "minion"
   name: app-wordsmith-ingress
   namespace: veriff-app
 spec:
