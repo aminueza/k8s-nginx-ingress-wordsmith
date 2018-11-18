@@ -14,8 +14,10 @@ metadata:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
 data:
+  #Enable WAF
   enable-modsecurity:  "true"
   enable-owasp-core-rules:  "true"
+  #DDoS Attacks
   limit-connections: "10"
   limit-rps: "1"
   app-root: "th_;_is_abad_url//\\"
