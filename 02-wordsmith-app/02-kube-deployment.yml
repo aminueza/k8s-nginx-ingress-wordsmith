@@ -86,7 +86,8 @@ spec:
       name: web
   selector:
     app: words-web
-  type: LoadBalancer
+  clusterIP: 10.96.0.107
+  #type: LoadBalancer
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
