@@ -31,7 +31,7 @@ kubectl create clusterrolebinding add-on-cluster-admin --clusterrole=cluster-adm
 
 helm init 
 
-htpasswd -c auth veriff
+kubectl apply -f 01-nginx-ingress-waf/02-secret-auth-basic.yaml
 
 cd 02-wordsmith-app && docker-compose build && kubectl apply -f 01-namespace.yaml
 
