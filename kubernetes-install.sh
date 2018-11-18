@@ -29,10 +29,10 @@ chmod +x get_helm.sh && sh get_helm.sh && rm get_helm.sh
 
 kubectl create clusterrolebinding add-on-cluster-admin --clusterrole=cluster-admin --serviceaccount=kube-system:default
 
-helm init
-
-kubectl apply -f 01-nginx-ingress-waf/nginx-ingress-waf-modsecurity.yaml 
+helm init 
 
 cd 02-wordsmith-app && docker-compose build && kubectl apply -f 01-namespace.yaml
 
-kubectl apply -f 02-kube-deployment.yml && kubectl apply -f 03-ingress-wordsmith.yaml
+kubectl apply -f 02-kube-deployment.yml && kubectl apply -f 01-nginx-ingress-waf/nginx-ingress-waf-modsecurity.yaml
+
+kubectl apply -f 03-ingress-wordsmith.yaml
