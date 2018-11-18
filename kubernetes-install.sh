@@ -33,6 +33,6 @@ helm init
 
 cd 02-wordsmith-app && docker-compose build && kubectl apply -f 01-namespace.yaml
 
-kubectl apply -f 02-kube-deployment.yml && kubectl apply -f 01-nginx-ingress-waf/nginx-ingress-waf-modsecurity.yaml
+kubectl apply -f 02-kube-deployment.yml && kubectl apply -f ../01-nginx-ingress-waf/nginx-ingress-waf-modsecurity.yaml
 
 kubectl apply -f 03-ingress-wordsmith.yaml

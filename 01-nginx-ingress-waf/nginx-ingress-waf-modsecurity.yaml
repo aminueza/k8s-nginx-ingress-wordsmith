@@ -211,7 +211,7 @@ spec:
           image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.20.0
           args:
             - /nginx-ingress-controller
-            - --default-backend-service=$(POD_NAMESPACE)/words-api
+            - --default-backend-service=veriff-app/words-api
             - --configmap=$(POD_NAMESPACE)/nginx-configuration
             - --publish-service=$(POD_NAMESPACE)/ingress-nginx
             - --annotations-prefix=nginx.ingress.kubernetes.io
