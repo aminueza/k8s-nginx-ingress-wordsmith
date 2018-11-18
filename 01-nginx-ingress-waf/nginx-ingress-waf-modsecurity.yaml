@@ -26,6 +26,9 @@ data:
   hsts-include-subdomains: "false"
   proxy-connect-timeout: "300"
   use-http2: "false"
+  auth-type: basic
+  auth-secret: basic-auth # secret name
+  auth-realm: 'Authentication Required {{.ENVIRONMENT}}'
   modsecurity-snippet: |
         SecDebugLog /var/log/modsec_audit.log;
   main-template: |
