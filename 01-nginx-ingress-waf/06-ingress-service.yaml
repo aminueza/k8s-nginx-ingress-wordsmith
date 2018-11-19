@@ -21,3 +21,4 @@ spec:
       name: https
       targetPort: 443
   type: LoadBalancer
+  externalIPs: 206.189.170.172
