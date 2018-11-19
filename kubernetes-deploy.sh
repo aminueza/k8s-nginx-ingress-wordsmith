@@ -48,11 +48,14 @@ reset_kube(){
 configure_kube(){
     echo "#################### Configuring Kubernetes Cluster and Network ####################"
     echo ''
-    kubeadm init --pod-network-cidr=192.168.0.0/16 
-    kubectl --kubeconfig=/etc/kubernetes/admin.conf apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/installation/hosted/rbac-kdd.yaml
-    kubectl --kubeconfig=/etc/kubernetes/admin.conf apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/installation/hosted/kubernetes-datastore/calico-networking/1.7/calico.yaml
-    kubectl --kubeconfig=/etc/kubernetes/admin.conf taint nodes --all node-role.kubernetes.io/master-kubectl taint nodes --all node-role.kubernetes.io/master-
+    kubeadm init --pod-network-cidr=192.168.0.1/16 
     mkdir -p $HOME/.kube && cp -i /etc/kubernetes/admin.conf $HOME/.kube/config && chown $(id -u):$(id -g) $HOME/.kube/config && export KUBECONFIG=/etc/kubernetes/admin.conf
+    kubectl apply -f \
+    https://docs.projectcalico.org/v3.3/getting-started/kubernetes/installation/hosted/etcd.yaml
+    kubectl apply -f \
+    https://docs.projectcalico.org/v3.3/getting-started/kubernetes/installation/rbac.yaml
+    kubectl apply -f \
+    https://docs.projectcalico.org/v3.3/getting-started/kubernetes/installation/hosted/calico.yaml
 }
 
 install_helm(){
