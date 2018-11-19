@@ -6,7 +6,7 @@ metadata:
     ingress.kubernetes.io/auth-type: basic
     ingress.kubernetes.io/auth-secret: basic-auth # secret name
     ingress.kubernetes.io/auth-realm: 'Authentication Required {{.ENVIRONMENT}}'
-    #ingress.kubernetes.io/ssl-redirect: "true"
+    certmanager.k8s.io/issuer: letsencrypt-staging
     ingress.kubernetes.io/secure-backends: "true"
     nginx.org/mergeable-ingress-type: "minion"
   name: app-wordsmith-ingress

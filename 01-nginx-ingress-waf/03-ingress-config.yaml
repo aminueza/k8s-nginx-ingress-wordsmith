@@ -7,6 +7,19 @@ metadata:
     ingress.kubernetes.io/auth-type: basic
     ingress.kubernetes.io/auth-secret: basic-auth # secret name
     ingress.kubernetes.io/auth-realm: 'Authentication Required {{.ENVIRONMENT}}'
+    #DDoS Attacks
+    ingress.kubernetes.io/limit-connections: 10
+    ingress.kubernetes.io/limit-rps: 1
+
   labels:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
+  data:
+    #WAF Opened
+    enable-modsecurity: "true"
+    #WAF Rules
+    enable-owasp-modsecurity-crs: "true"
+    enable-vts-status: "true"
+    main-template: |
+        load_module modules/ngx_http_modsecurity_module.so;
+        user  nginx;
