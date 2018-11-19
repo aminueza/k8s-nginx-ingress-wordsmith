@@ -39,6 +39,7 @@ while [[ $# -gt 0 ]]; do
         echo "Unknown option $1"
         usage; exit 2 ;;
   esac
+done
 
 if [[ ! $install_services ]]; then
     echo "#################### Installing mandatory services ####################"
