@@ -7,16 +7,13 @@ metadata:
     ingress.kubernetes.io/auth-type: basic
     ingress.kubernetes.io/auth-secret: basic-auth # secret name
     ingress.kubernetes.io/auth-realm: 'Authentication Required {{.ENVIRONMENT}}'
-    nginx.ingress.kubernetes.io/enable-modsecurity:         "true"
-    nginx.ingress.kubernetes.io/enable-owasp-core-rules:    "true"
+    nginx.ingress.kubernetes.io/enable-modsecurity:   "true"
+    nginx.ingress.kubernetes.io/enable-owasp-core-rules:  "true"
     nginx.ingress.kubernetes.io/modsecurity-snippet: |
-        SecRuleEngine On;
         SecDebugLog /tmp/modsec_debug.log;
         SecRequestBodyAccess On;
         SecAuditLogParts ABCIJDEFHZ;
         SecAuditEngine RelevantOnly;
-        SecRuleRemoveById 932140;
-        SecRequestBodyLimitAction Reject;
         Include "/etc/nginx/owasp-modsecurity-crs/nginx-modsecurity.conf";
         Include "/etc/nginx/modsecurity/modsecurity.config";
     nginx.ingress.kubernetes.io/modsecurity-transaction-id: "$request_id";
