@@ -45,7 +45,7 @@ reset_kube(){
     rm -rf ../.kube/*
 }
 
-configure_kube()){
+configure_kube(){
     echo "#################### Configuring Kubernetes Cluster and Network ####################"
     echo ''
     kubeadm init --pod-network-cidr=192.168.0.0/16 
