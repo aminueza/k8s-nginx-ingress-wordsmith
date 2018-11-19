@@ -53,7 +53,6 @@ configure_kube(){
     kubectl --kubeconfig=/etc/kubernetes/admin.conf apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/installation/hosted/kubernetes-datastore/calico-networking/1.7/calico.yaml
     kubectl --kubeconfig=/etc/kubernetes/admin.conf taint nodes --all node-role.kubernetes.io/master-kubectl taint nodes --all node-role.kubernetes.io/master-
     mkdir -p $HOME/.kube && cp -i /etc/kubernetes/admin.conf $HOME/.kube/config && chown $(id -u):$(id -g) $HOME/.kube/config && export KUBECONFIG=/etc/kubernetes/admin.conf
-    kubectl create clusterrolebinding add-on-cluster-admin --clusterrole=cluster-admin --serviceaccount=kube-system:default
 }
 
 install_helm(){
@@ -92,13 +91,14 @@ deploy_wordsmith(){
 deploy_nginx(){
     echo "#################### Deploying infrastructure components ####################"
     echo ''
+    kubectl create clusterrolebinding add-on-cluster-admin --clusterrole=cluster-admin --serviceaccount=kube-system:default
     kubectl apply -f 01-nginx-ingress-waf/07-secret-auth-basic.yaml
     kubectl apply -f 01-nginx-ingress-waf/01-ingress-namespace.yaml
     kubectl apply -f 01-nginx-ingress-waf/02-ingress-roles.yaml
     kubectl apply -f 01-nginx-ingress-waf/03-ingress-config.yaml
     kubectl apply -f 01-nginx-ingress-waf/04-ingress-default-backend.yaml
     kubectl apply -f 01-nginx-ingress-waf/05-ingress-deployment.yaml
-    kubectl apply -f 01-nginx-ingress-waf/05-ingress-deployment.yaml
+    kubectl apply -f 01-nginx-ingress-waf/06-ingress-service.yaml
 }
 
 menu_app(){
