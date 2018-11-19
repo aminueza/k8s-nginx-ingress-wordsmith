@@ -16,7 +16,6 @@ metadata:
         SecAuditEngine RelevantOnly;
         Include "/etc/nginx/owasp-modsecurity-crs/nginx-modsecurity.conf";
         Include "/etc/nginx/modsecurity/modsecurity.config";
-    Updated Ruçesingress.kubernetes.io/modsecurity-transaction-id: "$request_id";
     #DDoS Attacks
     ingress.kubernetes.io/limit-connections: 10
     ingress.kubernetes.io/limit-rps: 1
