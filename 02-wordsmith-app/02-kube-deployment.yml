@@ -88,7 +88,6 @@ spec:
     app: words-web
   clusterIP: 10.96.0.107
   type: NodePort
-  externalIPs: 206.189.170.172
 ---
 apiVersion: apps/v1beta1
 kind: Deployment

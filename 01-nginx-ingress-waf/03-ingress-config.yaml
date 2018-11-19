@@ -3,6 +3,10 @@ apiVersion: v1
 metadata:
   name: nginx-configuration
   namespace: ingress-nginx
+  annotations:
+    ingress.kubernetes.io/auth-type: basic
+    ingress.kubernetes.io/auth-secret: basic-auth # secret name
+    ingress.kubernetes.io/auth-realm: 'Authentication Required {{.ENVIRONMENT}}'
   labels:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
