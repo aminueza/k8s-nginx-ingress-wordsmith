@@ -7,19 +7,23 @@ metadata:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
 spec:
-  replicas: 1
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: ingress-nginx
       app.kubernetes.io/part-of: ingress-nginx
+      phase: prod
   template:
     metadata:
       labels:
         app.kubernetes.io/name: ingress-nginx
         app.kubernetes.io/part-of: ingress-nginx
+        phase: prod
       annotations:
-        prometheus.io/port: "10254"
-        prometheus.io/scrape: "true"
+        seccomp.security.alpha.kubernetes.io/pod: 'docker/default'
     spec:
       serviceAccountName: nginx-ingress-serviceaccount
       containers:
@@ -71,4 +75,6 @@ spec:
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 1
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 60
 ---

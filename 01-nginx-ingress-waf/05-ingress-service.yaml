@@ -4,14 +4,20 @@ apiVersion: v1
 metadata:
   name: ingress-nginx
   namespace: ingress-nginx
+  annotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/port: '10254'
 spec:
   selector:
     app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/phase: prod
   ports:
     - protocol: TCP
       port: 80
+      targetPort: 80
       name: http
     - protocol: TCP
       port: 443
       name: https
+      targetPort: 443
   type: LoadBalancer
