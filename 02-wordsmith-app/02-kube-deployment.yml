@@ -108,3 +108,7 @@ spec:
         ports:
         - containerPort: 80
           name: words-web
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
