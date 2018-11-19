@@ -87,7 +87,7 @@ spec:
   selector:
     app: words-web
   clusterIP: 10.96.0.107
-  #type: LoadBalancer
+  type: NodePort
 ---
 apiVersion: apps/v1beta1
 kind: Deployment

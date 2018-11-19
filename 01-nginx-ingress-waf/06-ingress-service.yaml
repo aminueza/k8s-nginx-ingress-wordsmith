@@ -10,7 +10,7 @@ metadata:
 spec:
   selector:
     app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/phase: prod
+    app.kubernetes.io/part-of: ingress-nginx
   ports:
     - protocol: TCP
       port: 80
