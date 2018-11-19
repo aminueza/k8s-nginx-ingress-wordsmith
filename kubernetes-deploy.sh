@@ -51,6 +51,14 @@ EOF
     apt-get update && apt-get install -y kubelet kubeadm kubectl
 fi
 
+if [[ $reset_kube ]]; then
+    echo "#################### Reset Kubernetes ####################"
+    echo ''
+    kubeadm reset || printf ''
+    docker rmi -f $(docker images -q)
+    rm -rf ../.kube/*
+fi
+
 if [[ $configure_kube ]]; then
     echo "#################### Configuring Kubernetes Cluster and Network ####################"
     echo ''
@@ -69,14 +77,6 @@ if [[ $helm ]]; then
     chmod +x get_helm.sh && sh get_helm.sh && rm get_helm.sh
     helm init
 fi 
-
-if [[ $reset_kube ]]; then
-    echo "#################### Reset Kubernetes ####################"
-    echo ''
-    kubeadm reset || printf ''
-    docker rmi -f $(docker images -q)
-    rm -rf ../.kube/*
-fi
 
 echo "#################### Cleaning up old deployment ####################"
 echo ''
