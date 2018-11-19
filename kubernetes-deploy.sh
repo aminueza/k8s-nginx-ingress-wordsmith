@@ -13,12 +13,8 @@ Parameters:
     Configure kubernetes cluster and network
   --helm
     Install Helming
-    Default is not install
-  --skip-image-build
-    Do not build images (default is to build all images)
-  --skip-image-push
-    Do not upload images to the container registry (just run the Kubernetes deployment portion)
-    Default is to push images to container registry
+  -r | --reset 
+    Reset Cluster
   -h | --help
     Displays this help text and exits the script
 Script to deploy k8s-wordsmith application with kubernetes, NGINX Ingress, WAF modsecurity + OWASP and Let's Encrypt
@@ -28,11 +24,13 @@ END
 while [[ $# -gt 0 ]]; do
   case "$1" in
     -i | --install )
-        install_services=""; shift;;
+        install_services="yes"; shift;;
     -c | --configure )
-        configure_kube=""; shift;;
+        configure_kube="yes"; shift;;
+    -r | --reset )
+        reset_kube="yes"; shift;;   
     --helm )
-        install_helm=''; shift;;
+        install_helm='yes'; shift;;
     -h | --help )
         usage; exit 1 ;;
     *)
@@ -41,7 +39,7 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-if [[ ! $install_services ]]; then
+if [[ $install_services ]]; then
     echo "#################### Installing mandatory services ####################"
     echo ''
     apt-get update && apt-get upgrade -y && apt-get install -y apt-transport-https docker.io apache2-utils docker-compose
@@ -72,11 +70,18 @@ if [[ $helm ]]; then
     helm init
 fi 
 
+if [[ $reset_kube ]]; then
+    echo "#################### Reset Kubernetes ####################"
+    echo ''
+    kubeadm reset || printf ''
+    docker rmi -f $(docker images -q)
+    rm -rf ../.kube/*
+fi
+
 echo "#################### Cleaning up old deployment ####################"
 echo ''
-kubeadm reset || true
-docker rmi -f $(docker images -q)
-rm -rf ../.kube/*
+kubectl create -f custom-namespace.yaml --namespace=custom-namespace
+kubectl delete namespaces custom-namespace
 
 echo "#################### Deploying infrastructure components ####################"
 echo ''
