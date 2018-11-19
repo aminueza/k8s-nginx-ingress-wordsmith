@@ -18,7 +18,8 @@ spec:
         app.kubernetes.io/name: ingress-nginx
         app.kubernetes.io/part-of: ingress-nginx
       annotations:
-        seccomp.security.alpha.kubernetes.io/pod: 'docker/default'
+        prometheus.io/port: "10254"
+        prometheus.io/scrape: "true"
     spec:
       serviceAccountName: nginx-ingress-serviceaccount
       containers:
@@ -71,6 +72,4 @@ spec:
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 1
-      restartPolicy: Always
-      terminationGracePeriodSeconds: 60
 ---
