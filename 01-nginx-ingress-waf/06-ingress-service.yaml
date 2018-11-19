@@ -18,4 +18,3 @@ spec:
       name: https
       targetPort: 443
   type: NodePort
-  externalIPs: 206.189.170.172
