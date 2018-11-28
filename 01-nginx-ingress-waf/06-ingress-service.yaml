@@ -12,9 +12,17 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
+      nodePort: 30081
       name: http
     - protocol: TCP
       port: 443
+      nodePort: 30082
       name: https
       targetPort: 443
   type: LoadBalancer
+  externalTrafficPolicy: Local
+  selector:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+  externalIPs:
+  - 206.189.170.172

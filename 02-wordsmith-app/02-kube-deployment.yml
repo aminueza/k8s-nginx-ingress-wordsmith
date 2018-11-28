@@ -80,14 +80,12 @@ metadata:
     app: words-web
 spec:
   ports:
-    - port: 8081
+    - port: 80
       targetPort: 80
-      nodePort: 30081
       name: web
   selector:
     app: words-web
   clusterIP: 10.96.0.107
-  type: NodePort
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -108,7 +106,3 @@ spec:
         ports:
         - containerPort: 80
           name: words-web
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      securityContext: {}
-      terminationGracePeriodSeconds: 30

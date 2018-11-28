@@ -30,7 +30,6 @@ spec:
             - --configmap=$(POD_NAMESPACE)/nginx-configuration
             - --publish-service=$(POD_NAMESPACE)/ingress-nginx
             - --annotations-prefix=nginx.ingress.kubernetes.io
-            - --default-backend-service=$(POD_NAMESPACE)/default-http-backend
             - --enable-dynamic-configuration=true
           securityContext:
             capabilities:

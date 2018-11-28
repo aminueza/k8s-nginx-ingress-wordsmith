@@ -2,30 +2,21 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   annotations:
-    kubernetes.io/ingress.class: nginx-ingress
-    kubernetes.io/tls-acme: "true"
-    ingress.kubernetes.io/auth-type: basic
-    ingress.kubernetes.io/auth-secret: basic-auth # secret name
-    ingress.kubernetes.io/auth-realm: 'Authentication Required {{.ENVIRONMENT}}'
-    nginx.ingress.kubernetes.io/custom-http-errors: 404, 503
-    ingress.kubernetes.io/secure-backends: "true"
-    ingress.kubernetes.io/ssl-redirect: "true"
-    certmanager.k8s.io/issuer: letsencrypt-staging
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: veriff
+    nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - ok"
   name: app-wordsmith-ingress
   namespace: veriff-app
   labels:
     app.kubernetes.io/part-of: ingress-nginx
 spec:
-  tls:
-  - hosts:
-    - veriff.amandasouza.app
-    secretName: veriff-tls
   rules:
-  - host: veriff.amandasouza.app
-    http:
+          #- host: veriff.amandasouza.app
+  - http:
         paths:
         - path: /
           backend:
             serviceName: web
-            servicePort: 8081
+            servicePort: 80
 

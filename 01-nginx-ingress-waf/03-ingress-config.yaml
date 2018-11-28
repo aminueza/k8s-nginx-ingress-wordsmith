@@ -4,9 +4,6 @@ metadata:
   name: nginx-configuration
   namespace: ingress-nginx
   annotations:
-    ingress.kubernetes.io/auth-type: basic
-    ingress.kubernetes.io/auth-secret: basic-auth # secret name
-    ingress.kubernetes.io/auth-realm: 'Authentication Required {{.ENVIRONMENT}}'
     ingress.kubernetes.io/enable-modsecurity:   "true"
     ingress.kubernetes.io/enable-owasp-core-rules:  "true"
     ingress.kubernetes.io/modsecurity-snippet: |
@@ -28,11 +25,6 @@ data:
   enable-modsecurity: "true"
   #WAF Rules
   enable-owasp-modsecurity-crs: "true"
-  enable-vts-status: "true"
-  enable-vts-status: "true"
-  hsts-include-subdomains: "false"
-  proxy-connect-timeout: "300"
-  use-http2: "false"
   main-template: |
         load_module modules/ngx_http_modsecurity_module.so;
         user  nginx;
