@@ -17,7 +17,7 @@ Steps:
 3) Deploy NGINX Ingress
 4) Deploy Wordsmith
 
-The wordsmith is now acessible at http://206.189.170.172:30081 
+The wordsmith is now acessible at https://206.189.170.172 
 
 Reset the cluster:
  1) Press option 6 
