@@ -88,7 +88,7 @@ deploy_wordsmith(){
     kubectl apply -f 03-ingress-wordsmith.yaml
     cd ../
     echo "k8s-wordsmith deployment is DONE"
-    echo "The wordsmith is now acessible at http://206.189.170.172:30081"
+    echo "The wordsmith is now acessible at https://206.189.170.172"
 }
 
 deploy_nginx(){
