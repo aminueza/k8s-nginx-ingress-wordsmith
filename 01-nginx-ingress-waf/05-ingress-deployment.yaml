@@ -24,14 +24,19 @@ spec:
       serviceAccountName: nginx-ingress-serviceaccount
       containers:
         - name: nginx-ingress-controller
-          image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.20.0
+          image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.25.0
           args:
             - /nginx-ingress-controller
             - --configmap=$(POD_NAMESPACE)/nginx-configuration
             - --publish-service=$(POD_NAMESPACE)/ingress-nginx
+            - --tcp-services-configmap=$(POD_NAMESPACE)/tcp-services
+            - --udp-services-configmap=$(POD_NAMESPACE)/udp-services
             - --annotations-prefix=nginx.ingress.kubernetes.io
-            - --enable-dynamic-configuration=true
+            - --default-backend-service=$(POD_NAMESPACE)/default-http-backend
+            #- --enable-dynamic-configuration=true
+            - --ingress-class=default
           securityContext:
+            allowPrivilegeEscalation: true
             capabilities:
               drop:
                 - ALL

@@ -3,20 +3,27 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/auth-type: basic
-    nginx.ingress.kubernetes.io/auth-secret: veriff
-    nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - ok"
+    ingress.kubernetes.io/enable-modsecurity:   "true"
+    ingress.kubernetes.io/enable-owasp-core-rules:  "true"
+    ingress.kubernetes.io/modsecurity-snippet: |
+        SecDebugLog /tmp/modsec_debug.log;
+        SecRequestBodyAccess On;
+        SecAuditLogParts ABCIJDEFHZ;
+        SecAuditEngine RelevantOnly;
+        Include "/etc/nginx/owasp-modsecurity-crs/nginx-modsecurity.conf";
+        Include "/etc/nginx/modsecurity/modsecurity.config";
+    # nginx.ingress.kubernetes.io/auth-type: basic
+    # nginx.ingress.kubernetes.io/auth-secret: veriff
+    # nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - ok"
   name: app-wordsmith-ingress
   namespace: veriff-app
   labels:
     app.kubernetes.io/part-of: ingress-nginx
 spec:
   rules:
-          #- host: veriff.amandasouza.app
   - http:
         paths:
         - path: /
           backend:
             serviceName: web
             servicePort: 80
-

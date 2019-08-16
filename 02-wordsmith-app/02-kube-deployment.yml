@@ -7,12 +7,12 @@ metadata:
     app: words-db
 spec:
   ports:
-    - port: 5432
+    - name: db
+      protocol: TCP
+      port: 5432
       targetPort: 5432
-      name: db
   selector:
     app: words-db
-  clusterIP: 10.96.0.100
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -22,17 +22,74 @@ metadata:
   labels:
     app: words-db
 spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  minReadySeconds: 30
   template:
     metadata:
       labels:
         app: words-db
+        run: words-db
     spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: "app"
+                    operator: In
+                    values:
+                      - "words-db"
+                  - key: "temporary"
+                    operator: In
+                    values:
+                      - "true"
+              topologyKey: "kubernetes.io/hostname"
+      terminationGracePeriodSeconds: 30
       containers:
       - name: db
         image: dockersamples/k8s-wordsmith-db
+        imagePullPolicy: Always
+        # volumeMounts:
+        #     - name: log
+        #       mountPath: /opt/db/current/log
+        #     - name: certs
+        #       mountPath: /opt/db/current/certs
         ports:
         - containerPort: 5432
           name: db
+        resources:
+            limits:
+              cpu: 1
+              memory: 512Mi
+            requests:
+              cpu: 0.1
+              memory: 128Mi
+        # envFrom:
+        #   - configMapRef:
+        #       name: db
+        readinessProbe:
+            httpGet:
+              path: /status
+              port: 80
+            periodSeconds: 10
+            failureThreshold: 2
+            successThreshold: 2
+    # volumes:
+    #     - name: certs
+    #       secret:
+    #         secretName: db-tls
+    #         items:
+    #           - key: ppl.crt
+    #             path: ppl.crt
+    #           - key: ppl.key
+    #             path: ppl.key
+    #     - name: log
+    #       emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
@@ -46,9 +103,9 @@ spec:
     - port: 8080
       targetPort: 8080
       name: api
+      protocol: TCP
   selector:
     app: words-api
-  clusterIP: 10.96.0.101
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -85,7 +142,6 @@ spec:
       name: web
   selector:
     app: words-web
-  clusterIP: 10.96.0.107
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -106,3 +162,35 @@ spec:
         ports:
         - containerPort: 80
           name: words-web
+# ---
+# kind: NetworkPolicy
+# apiVersion: networking.k8s.io/v1
+# metadata:
+#   name: access-bd
+# spec:
+#   podSelector:
+#     matchLabels:
+#       app: words
+#   policyTypes:
+#     - Egress
+#     - Ingress
+#   egress:
+#     - ports:
+#         - port: 53
+#           protocol: UDP
+#         - port: 53
+#           protocol: TCP
+#         - port: 443
+#           protocol: TCP
+#         - port: 80
+#           protocol: TCP
+#         - port: 8080
+#           protocol: TCP
+#         - port: 5432
+#           protocol: TCP
+#   ingress:
+#     - ports:
+#         - port: 80
+#           protocol: TCP
+#         - port: 8080
+#           protocol: TCP
